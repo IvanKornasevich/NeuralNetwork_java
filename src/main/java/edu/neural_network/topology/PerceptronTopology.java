@@ -5,12 +5,12 @@ import edu.neural_network.layer.*;
 import java.util.*;
 import java.util.function.Function;
 
-public class NetworkTopology implements Topology {
+public class PerceptronTopology implements Topology {
 
     private final int argsCount;
     private final List<Layer> layers = new ArrayList<>();
 
-    public NetworkTopology(int argsCount) {
+    public PerceptronTopology(int argsCount) {
 
         this.argsCount = argsCount;
     }
@@ -20,9 +20,9 @@ public class NetworkTopology implements Topology {
         Layer newLayer;
 
         if (layers.isEmpty()) {
-            newLayer = new NetworkLayer(argsCount, neuronesCount, activationFunction);
+            newLayer = new PerceptronLayer(argsCount, neuronesCount, activationFunction);
         } else {
-            newLayer = new NetworkLayer(layers.get(layers.size() - 1).getNeuronCount(), neuronesCount, activationFunction);
+            newLayer = new PerceptronLayer(layers.get(layers.size() - 1).getNeuronCount(), neuronesCount, activationFunction);
         }
 
         layers.add(newLayer);

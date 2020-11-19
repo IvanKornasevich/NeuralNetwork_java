@@ -2,7 +2,7 @@ package edu.neural_network.layer;
 
 import java.util.function.Function;
 
-public class NetworkLayer implements Layer {
+public class PerceptronLayer implements Layer {
 
     protected final double[] thresholdVector;
 
@@ -12,7 +12,7 @@ public class NetworkLayer implements Layer {
 
     protected double[][] weightMatrix;
 
-    public NetworkLayer(int connectionsCount, int neuronsCount, Function<Double, Double> activationFunction) {
+    public PerceptronLayer(int connectionsCount, int neuronsCount, Function<Double, Double> activationFunction) {
 
         weightMatrix = new double[neuronsCount][connectionsCount];
         for (int i = 0; i < weightMatrix.length; i++) {

@@ -7,7 +7,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        Topology topology = new NetworkTopology(5);
+        Topology topology = new PerceptronTopology(5);
         topology.addLayer(10, x -> x);
         topology.addLayer(10, x -> x);
 
@@ -23,7 +23,7 @@ public class App {
     static void printArray(double[] arr) {
 
         for (var i : arr) {
-            System.out.println(String.format("%.5f", i));
+            System.out.printf("%.5f%n", i);
         }
         System.out.println();
     }
