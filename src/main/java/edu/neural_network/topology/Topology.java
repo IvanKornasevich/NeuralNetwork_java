@@ -1,13 +1,13 @@
 package edu.neural_network.topology;
 
+import edu.function.ActivationFunction;
 import edu.neural_network.layer.Layer;
 
 import java.util.List;
-import java.util.function.Function;
 
 public interface Topology {
 
-    void addLayer(int neuronesCount, Function<Double, Double> activationFunction);
+    void addLayer(int neuronesCount, ActivationFunction activationFunction);
 
     List<Layer> getLayers();
 }

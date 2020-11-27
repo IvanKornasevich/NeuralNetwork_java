@@ -1,6 +1,6 @@
 package edu.neural_network.layer;
 
-import java.util.function.Function;
+import edu.function.ActivationFunction;
 
 public class PerceptronLayer implements Layer {
 
@@ -8,11 +8,11 @@ public class PerceptronLayer implements Layer {
 
     protected final double[] resultVector;
 
-    protected final Function<Double, Double> activationFunction;
+    protected final ActivationFunction activationFunction;
 
     protected double[][] weightMatrix;
 
-    public PerceptronLayer(int connectionsCount, int neuronsCount, Function<Double, Double> activationFunction) {
+    public PerceptronLayer(int connectionsCount, int neuronsCount, ActivationFunction activationFunction) {
 
         weightMatrix = new double[neuronsCount][connectionsCount];
         for (int i = 0; i < weightMatrix.length; i++) {
@@ -27,7 +27,7 @@ public class PerceptronLayer implements Layer {
     }
 
     @Override
-    public Function<Double, Double> getActivationFunction() {
+    public ActivationFunction activationFunction() {
 
         return activationFunction;
     }
@@ -36,25 +36,27 @@ public class PerceptronLayer implements Layer {
     public double[] feedForward(double[] args) {
 
         for (int i = 0; i < weightMatrix.length; i++) {
+            resultVector[i] = 0;
+
             for (int j = 0; j < weightMatrix[0].length; j++) {
                 resultVector[i] += weightMatrix[i][j] * args[j];
             }
 
             resultVector[i] -= thresholdVector[i];
-            resultVector[i] = activationFunction.apply(resultVector[i]);
+            resultVector[i] = activationFunction.activate(resultVector[i]);
         }
 
         return resultVector;
     }
 
     @Override
-    public int getNeuronCount() {
+    public int neuronsCount() {
 
         return weightMatrix.length;
     }
 
     @Override
-    public double[][] getWeightMatrix() {
+    public double[][] getWeightsMatrix() {
 
         return weightMatrix;
     }
@@ -66,7 +68,7 @@ public class PerceptronLayer implements Layer {
     }
 
     @Override
-    public double[] getResult() {
+    public double[] getResults() {
 
         return resultVector;
     }

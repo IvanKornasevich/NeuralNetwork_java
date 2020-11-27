@@ -1,18 +1,18 @@
 package edu.neural_network.layer;
 
-import java.util.function.Function;
+import edu.function.ActivationFunction;
 
 public interface Layer {
 
-    int getNeuronCount();
+    int neuronsCount();
 
-    Function<Double, Double> getActivationFunction();
+    ActivationFunction activationFunction();
 
     double[] feedForward(double[] args);
 
-    double[][] getWeightMatrix();
+    double[][] getWeightsMatrix();
 
     double[] getThresholdVector();
 
-    double[] getResult();
+    double[] getResults();
 }

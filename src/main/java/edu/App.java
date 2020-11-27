@@ -1,23 +1,37 @@
 package edu;
 
-import edu.neural_network.*;
-import edu.neural_network.topology.*;
+import edu.function.Sigmoid;
+import edu.neural_network.NeuralNetwork;
+import edu.neural_network.Perceptron;
+import edu.neural_network.teacher.PerceptronLearnCase;
+import edu.neural_network.teacher.PerceptronTeacher;
+import edu.neural_network.topology.PerceptronTopology;
+import edu.neural_network.topology.Topology;
+
+import java.util.List;
 
 public class App {
 
     public static void main(String[] args) {
 
-        Topology topology = new PerceptronTopology(5);
-        topology.addLayer(10, x -> x);
-        topology.addLayer(10, x -> x);
+
+        Topology topology = new PerceptronTopology(2, 2);
+        topology.addLayer(2, new Sigmoid());
+        topology.addLayer(2, new Sigmoid());
+        topology.addLayer(2, new Sigmoid());
+
 
         NeuralNetwork nn = new Perceptron(topology);
 
-        var argsnn = new double[]{1, 2, 3, 4, 5};
-        var result = nn.run(argsnn);
+        var lc = new PerceptronLearnCase(new double[]{1, 2}, new double[]{3, 4});
 
-        printArray(argsnn);
-        printArray(result);
+        var teacher = new PerceptronTeacher(nn, List.of(lc));
+
+        for (var i = 0; i < 10; ++i) {
+            teacher.Learn(0.1, 50);
+            printArray(nn.run(lc.args()));
+        }
+
     }
 
     static void printArray(double[] arr) {

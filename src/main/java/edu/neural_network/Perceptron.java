@@ -23,6 +23,10 @@ public class Perceptron implements NeuralNetwork {
     @Override
     public double[] run(double[] args) {
 
+        if (args.length != layers.get(0).getWeightsMatrix()[0].length) {
+            throw new IllegalArgumentException("Arguments and first layer inputs count was not same");
+        }
+
         for (var layer : layers) {
             args = layer.feedForward(args);
         }
