@@ -2,6 +2,8 @@ package edu.neural_network.layer;
 
 import edu.function.ActivationFunction;
 
+import java.util.Random;
+
 public class PerceptronLayer implements Layer {
 
     protected final double[] thresholdVector;
@@ -15,9 +17,10 @@ public class PerceptronLayer implements Layer {
     public PerceptronLayer(int connectionsCount, int neuronsCount, ActivationFunction activationFunction) {
 
         weightMatrix = new double[neuronsCount][connectionsCount];
+        var rnd = new Random();
         for (int i = 0; i < weightMatrix.length; i++) {
             for (int j = 0; j < weightMatrix[0].length; j++) {
-                weightMatrix[i][j] = 0.5;
+                weightMatrix[i][j] = rnd.nextDouble();
             }
         }
 
@@ -38,12 +41,11 @@ public class PerceptronLayer implements Layer {
         for (int i = 0; i < weightMatrix.length; i++) {
             resultVector[i] = 0;
 
-            for (int j = 0; j < weightMatrix[0].length; j++) {
+            for (int j = 0; j < weightMatrix[i].length; j++) {
                 resultVector[i] += weightMatrix[i][j] * args[j];
             }
 
-            resultVector[i] -= thresholdVector[i];
-            resultVector[i] = activationFunction.activate(resultVector[i]);
+            resultVector[i] = activationFunction.activate(resultVector[i] - thresholdVector[i]);
         }
 
         return resultVector;

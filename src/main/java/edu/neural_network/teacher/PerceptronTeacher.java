@@ -21,7 +21,15 @@ public class PerceptronTeacher implements NeuralNetworkTeacher {
     public void Learn(double learnRate, int agesCount) {
         IntStream.range(0, agesCount)
                 .forEach(i -> learnSet
-                        .forEach(x -> backProp(learnRate, x.args(), x.results(), neuralNetwork.run(x.args()))));
+                        .forEach(x -> {
+                            if (x.args().length != neuralNetwork.argsCount()) {
+                                throw new IllegalArgumentException("Learn case and neural network args count was not same");
+                            }
+                            if (x.results().length != neuralNetwork.resultsCount()) {
+                                throw new IllegalArgumentException("Learn case and neural network results count was not same");
+                            }
+                            backProp(learnRate, x.args(), x.results(), neuralNetwork.run(x.args()));
+                        }));
     }
 
     private void backProp(double learnRate, double[] args, double[] expectedResults, double[] actualResults) {
@@ -59,17 +67,17 @@ public class PerceptronTeacher implements NeuralNetworkTeacher {
 
         for (var i = 0; i < matrix.length; ++i) {
 
-            var delta = curLayerErrors[i] *
+            var weightDelta = curLayerErrors[i] *
                     curLayer.activationFunction().derivativeThroughResult(curLayerResults[i]);
 
             for (var j = 0; j < matrix[i].length; ++j) {
 
-                matrix[i][j] -= learnRate * prevLayer.getResults()[j] * delta;
-                prevLayerErrors[j] = matrix[i][j] * delta;
+                matrix[i][j] -= learnRate * prevLayer.getResults()[j] * weightDelta;
+                prevLayerErrors[j] += matrix[i][j] * weightDelta;
+
             }
 
-            curLayer.getThresholdVector()[i] += learnRate * curLayerErrors[i] *
-                    curLayer.activationFunction().derivativeThroughResult(curLayerResults[i]);
+            curLayer.getThresholdVector()[i] += learnRate * weightDelta;
         }
 
         return prevLayerErrors;
@@ -78,16 +86,15 @@ public class PerceptronTeacher implements NeuralNetworkTeacher {
     private void backPropFirstLayer(double learnRate, double[] args, Layer firstLayer, double[] firstLayerErrors) {
 
         var matrix = firstLayer.getWeightsMatrix();
-        var curLayerResults = firstLayer.getResults();
+        var firstLayerResults = firstLayer.getResults();
 
         for (var i = 0; i < matrix.length; ++i) {
-            var delta = firstLayerErrors[i] *
-                    firstLayer.activationFunction().derivativeThroughResult(curLayerResults[i]);
+            var weightDelta = firstLayerErrors[i] *
+                    firstLayer.activationFunction().derivativeThroughResult(firstLayerResults[i]);
             for (var j = 0; j < matrix[i].length; ++j) {
-                matrix[i][j] -= learnRate * args[j] * delta;
+                matrix[i][j] -= learnRate * args[j] * weightDelta;
             }
-            firstLayer.getThresholdVector()[i] += learnRate * firstLayerErrors[i] *
-                    firstLayer.activationFunction().derivativeThroughResult(curLayerResults[i]);
+            firstLayer.getThresholdVector()[i] += learnRate * weightDelta;
         }
     }
 }

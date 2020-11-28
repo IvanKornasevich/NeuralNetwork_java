@@ -1,7 +1,6 @@
 package edu.neural_network.topology;
 
 import edu.function.ActivationFunction;
-import edu.function.Linear;
 import edu.neural_network.layer.Layer;
 import edu.neural_network.layer.PerceptronLayer;
 
@@ -11,13 +10,11 @@ import java.util.List;
 public class PerceptronTopology implements Topology {
 
     private final int argsCount;
-    private final int resultsCount;
     private final List<Layer> layers = new LinkedList<>();
 
-    public PerceptronTopology(int argsCount, int resultsCount) {
+    public PerceptronTopology(int argsCount) {
 
         this.argsCount = argsCount;
-        this.resultsCount = resultsCount;
     }
 
     public void addLayer(int neuronesCount, ActivationFunction activationFunction) {
@@ -36,7 +33,6 @@ public class PerceptronTopology implements Topology {
     @Override
     public List<Layer> getLayers() {
 
-        layers.add(new PerceptronLayer(layers.get(layers.size() - 1).neuronsCount(), resultsCount, new Linear()));
         return layers;
     }
 }

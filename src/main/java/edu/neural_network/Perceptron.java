@@ -21,6 +21,16 @@ public class Perceptron implements NeuralNetwork {
     }
 
     @Override
+    public int argsCount() {
+        return layers.get(0).getWeightsMatrix()[0].length;
+    }
+
+    @Override
+    public int resultsCount() {
+        return layers.get(layers.size() - 1).neuronsCount();
+    }
+
+    @Override
     public double[] run(double[] args) {
 
         if (args.length != layers.get(0).getWeightsMatrix()[0].length) {

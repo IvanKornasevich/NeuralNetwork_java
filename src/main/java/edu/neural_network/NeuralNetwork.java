@@ -8,5 +8,9 @@ public interface NeuralNetwork {
 
     List<Layer> getLayers();
 
+    int argsCount();
+
+    int resultsCount();
+
     double[] run(double[] args);
 }
