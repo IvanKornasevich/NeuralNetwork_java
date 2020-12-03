@@ -20,7 +20,7 @@ public class PerceptronLayer implements Layer {
         var rnd = new Random();
         for (int i = 0; i < weightMatrix.length; i++) {
             for (int j = 0; j < weightMatrix[0].length; j++) {
-                weightMatrix[i][j] = rnd.nextDouble();
+                weightMatrix[i][j] = 0.5;
             }
         }
 
